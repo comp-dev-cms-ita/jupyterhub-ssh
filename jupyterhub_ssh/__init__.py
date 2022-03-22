@@ -58,7 +58,7 @@ class NotebookSSHServer(asyncssh.SSHServer):
         # REST API implementation:  https://github.com/jupyterhub/jupyterhub/blob/187fe911edce06eb067f736eaf4cc9ea52e69e08/jupyterhub/apihandlers/users.py#L451-L497
         create_url = self.app.hub_url / "hub/api/users" / username / "server"
 
-        async with session.post(create_url) as resp:
+        async with session.post(create_url,data=b'{"mem":"4G","cpu":2}') as resp:
             if resp.status == 201 or resp.status == 400:
                 # FIXME: code 400 can mean "pending stop" or "already running",
                 #        but we assume it means that the server is already
